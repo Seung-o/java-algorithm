@@ -1,4 +1,4 @@
-package problem_10;
+package String.problem_10;
 
 import java.util.*;
 class Another {

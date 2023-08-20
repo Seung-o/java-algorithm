@@ -1,4 +1,4 @@
-package problem_7;
+package String.problem_7;
 
 import java.util.Scanner;
 
