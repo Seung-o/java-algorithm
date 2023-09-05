@@ -17,18 +17,16 @@ public class Main {
     }
 
     public int solution(int N, int M, int[] input) {
+        int sum = 0;
         int count = 0;
-        int lt = 0, rt = 1;
-        int sum = input[lt] + input[rt];
+        int lt = 0;
 
-        while (lt < N - 1 && rt < N - 1) {
-            if (sum == M) {
-                count++;
+        for (int rt = 0; rt < N; rt++) {
+            sum += input[rt];
+            if (sum == M) count++;
+            while (sum >= M) {
                 sum -= input[lt++];
-            } else if (sum > M) {
-                sum -= input[lt++];
-            } else {
-                sum += input[++rt];
+                if (sum == M) count++;
             }
         }
 
