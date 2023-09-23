@@ -27,6 +27,8 @@ public class Main {
                 if (input[j] > targetToInsert) {
                     input[j + 1] = input[j];
                     idxToInsert = j;
+                } else {
+                    break;
                 }
             }
 
