@@ -26,34 +26,29 @@ public class Main {
             memory[i] = 0;
         }
 
-        for (int i = 0; i < N; i++) {
+        for (int task : tasks) {
 
-            int task = tasks[i];
             int tmpIdx = -1;
 
-
-            for (int j = 0; j < maxSize; j++) {
-                if (memory[j] == task) {
-                    tmpIdx = j;
+            for (int i = 0; i < maxSize; i++) {
+                if (memory[i] == task) {
+                    tmpIdx = i;
                     break;
                 }
             }
 
-            int[] newArr = new int[maxSize];
-            newArr[0] = task;
-
             if (tmpIdx == -1) {
-                System.arraycopy(memory, 0, newArr, 1, maxSize - 1);
-            } else {
-                int newIdx = 1;
-                for (int k = 0; k < maxSize; k++) {
-                    if (k != tmpIdx) {
-                        newArr[newIdx++] = memory[k];
-                    }
+                for (int i = maxSize - 1; i > 0; i--) {
+                    memory[i] = memory[i - 1];
                 }
+                memory[0] = task;
+            } else {
+                for (int i = tmpIdx; i > 0; i--) {
+                    memory[i] = memory[i - 1];
+                }
+                memory[0] = task;
             }
 
-            memory = newArr;
         }
 
         return memory;
