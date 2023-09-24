@@ -1,5 +1,6 @@
 package Searching.problem_2;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -18,13 +19,9 @@ public class Main {
 
     public int solution(int N, int M, int[] musics) {
         int answer = 0;
-        int lt = -1, rt = 0;
-
-        for (int music : musics) {
-            if (music > lt) lt = music;
-            rt += music;
-        }
-
+        int lt = Arrays.stream(musics).max().getAsInt();
+        int rt = Arrays.stream(musics).sum();
+        
         while (lt <= rt) {
             int mid = (lt + rt) / 2;
 
