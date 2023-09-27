@@ -24,6 +24,9 @@ public class Main {
     }
 
     public void solution(int index, int sum) {
+
+        if (answer == "YES") return;
+
         if (isCoprimeIntegers(sum)) {
             answer = "YES";
         } else {
