@@ -27,6 +27,8 @@ public class Main {
 
         if (answer == "YES") return;
 
+        if (sum > total / 2) return;
+
         if (isCoprimeIntegers(sum)) {
             answer = "YES";
         } else {
