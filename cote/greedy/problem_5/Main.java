@@ -82,6 +82,8 @@ public class Main {
                 Edge edge = curEdges.get(i);
                 int cost = edge.cost + curCost;
 
+                if (cost > distance[edge.vertex]) continue;
+
                 if (distance[edge.vertex] > cost) {
                     distance[edge.vertex] = cost;
                     pQ.offer(new Edge(edge.vertex, cost));
