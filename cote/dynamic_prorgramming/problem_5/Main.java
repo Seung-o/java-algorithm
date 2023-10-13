@@ -22,15 +22,11 @@ public class Main {
     public int solution(int N, int M, int[] coins) {
 
         Arrays.sort(coins);
+        Arrays.fill(dy, Integer.MAX_VALUE);
 
         dy[0] = 0;
-        dy[1] = 1;
 
-        for (int i = 2; i <= M; i++) {
-            dy[i] = M % coins[0] == 0 ? M / coins[0] : M / coins[0] + 1;
-        }
-
-        for (int i = 1; i < N; i++) {
+        for (int i = 0; i < N; i++) {
             int curCoin = coins[i];
             for (int j = curCoin; j <= M; j++) {
                 dy[j] = Math.min(dy[j - curCoin] + 1, dy[j]);
