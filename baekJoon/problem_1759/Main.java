@@ -19,34 +19,29 @@ public class Main {
         arr = new char[C];
         for (int i = 0; i < C; i++) arr[i] = scanner.next().charAt(0);
         Arrays.sort(arr);
-        main.DFS(0, Character.toString(arr[0]));
-        main.DFS(0, "");
+        main.DFS(0, Character.toString(arr[0]), true);
+        main.DFS(0, "", false);
 
         for (String x : answer) System.out.println(x);
 
     }
 
-    public void DFS(int index, String str) {
-
+    public void DFS(int index, String str, boolean used) {
         String key = isVowel(arr[index]) ? "Vowel" : "Consonant";
-        hashMap.put(key, hashMap.getOrDefault(key, 0) + 1);
-        System.out.println("str: " + str);
-        System.out.println("Vowel: " + hashMap.getOrDefault("Vowel", 0));
-        System.out.println("Consonant: " + hashMap.getOrDefault("Consonant", 0));
+        if (used) hashMap.put(key, hashMap.getOrDefault(key, 0) + 1);
 
         if (str.length() == L) {
             if (hashMap.getOrDefault("Vowel", 0) >= 1 && hashMap.getOrDefault("Consonant", 0) >= 2) {
                 answer.add(str);
             }
-            hashMap.put(key, hashMap.get(key) - 1);
-            System.out.println("=========================");
         } else {
             if (index + 1 < arr.length) {
-                DFS(index + 1, str + arr[index + 1]);
-                hashMap.put(key, hashMap.get(key) - 1);
-                DFS(index + 1, str);
+                DFS(index + 1, str + arr[index + 1], true);
+                DFS(index + 1, str, false);
             }
         }
+
+        if (used) hashMap.put(key, hashMap.get(key) - 1);
     }
 
     public boolean isVowel(char c) {
