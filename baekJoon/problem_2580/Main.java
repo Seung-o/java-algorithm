@@ -5,11 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static int[][] board = new int[9][9];
-    public static int[][] checkBoard = new int[9][9];
-    public static int blankCount = 0;
-    public static int[] move = {-1, 1};
-    public static int[] check = new int[10];
-    public static int xL = 0, xH = 0, yL = 0, yH = 0;
+
 
     public static void main(String[] args) {
         Main main = new Main();
@@ -17,70 +13,63 @@ public class Main {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 board[i][j] = scanner.nextInt();
-                if (board[i][j] == 0) blankCount++;
             }
         }
-        main.solution();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(board[i][j] + " ");
-            }
-            System.out.println();
-        }
+        main.DFS(0, 0);
     }
 
-    public void solution() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] == 0) {
-                    xL = i - (i % 3);
-                    yL = j - (j % 3);
-                    xH = xL + 3;
-                    yH = yL + 3;
-                    DFS(i, j);
-
-                    for (int x = 0; x < 9; x++) {
-                        for (int y = 0; y < 9; y++) {
-                            System.out.print(checkBoard[x][y] + " ");
-                        }
-                        System.out.println();
-                    }
-                    System.out.println("==================");
-                    checkBoard = new int[9][9];
-                }
-            }
-
-        }
-    }
 
     public void DFS(int x, int y) {
-        if (board[x][y] != 0) {
-            check[board[x][y]] = 1;
+
+
+        if (y == 9) {
+            DFS(x + 1, 0);
+            return;
         }
 
-        for (int m : move) {
-            int dx = x + m;
-            int dy = y + m;
-
-//            if (dx == xL && checkBoard[dx][y] == 0) {
-//                checkBoard[dx][y] = 1;
-//                DFS(dx, y);
-//            }
-//
-//            if (dy == yL && checkBoard[x][dy] == 0) {
-//                checkBoard[x][dy] = 1;
-//                DFS(x, dy);
-//            }
-
-            if (dx >= xL && dx < xH && checkBoard[dx][y] == 0) {
-                checkBoard[dx][y] = 1;
-                DFS(dx, y);
+        if (x == 9) {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    System.out.print(board[i][j] + " ");
+                }
+                System.out.println();
             }
+            System.exit(0);
+        }
 
-            if (dy >= yL && dy < yH && checkBoard[x][dy] == 0) {
-                checkBoard[x][dy] = 1;
-                DFS(x, dy);
+        if (board[x][y] == 0) {
+            for (int i = 1; i <= 9; i++) {
+                if (isPossible(x, y, i)) {
+                    board[x][y] = i;
+                    DFS(x, y + 1);
+                }
+            }
+            board[x][y] = 0;
+            return;
+        }
+
+        DFS(x, y + 1);
+    }
+
+    public boolean isPossible(int x, int y, int value) {
+        for (int dx = 0; dx < 9; dx++) {
+            if (board[dx][y] == value) return false;
+        }
+
+        for (int dy = 0; dy < 9; dy++) {
+            if (board[x][dy] == value) return false;
+        }
+
+
+        int xL = (x / 3) * 3;
+        int yL = (y / 3) * 3;
+
+        for (int dx = xL; dx < xL + 3; dx++) {
+            for (int dy = yL; dy < yL + 3; dy++) {
+                if (board[dx][dy] == value) return false;
             }
         }
+
+        return true;
     }
 }
