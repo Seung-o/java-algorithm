@@ -21,21 +21,17 @@ public class Main {
         Stack<Integer> stack = new Stack<>();
 
         for (int i = 0; i < N; i++) {
+            System.out.println(i);
 
-            if (stack.isEmpty() || heights[stack.peek()] <= heights[i]) {
-                stack.push(i);
-            } else {
-                int j = 0;
-
-                while (stack.size() > 0 && heights[i] < heights[stack.peek()]) {
-                    int idx = stack.pop();
-                    long size = heights[idx] * (j + 1);
-                    answer = Math.max(answer, size);
-                    j++;
-                }
-
-                stack.push(i);
+            while (stack.size() > 0) {
+                int top = stack.peek();
+                if (heights[top] <= heights[i]) break;
+                stack.pop();
+                long size = heights[top] * (i - stack.peek() - 1);
+                answer = Math.max(answer, size);
             }
+
+            stack.push(i);
         }
 
 
