@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static int N, maxTeamCnt, total = 0, temp = 0;
+    public static int N, maxTeamCnt, total = 0, temp = 0, answer = Integer.MAX_VALUE;
 
     public static int[] check;
     public static int[][] S;
@@ -24,19 +24,30 @@ public class Main {
                 total += S[i][j];
             }
         }
-        
+
 
         main.DFS(1);
+        System.out.println(answer);
     }
 
     public void DFS(int idx) {
 
         if (countChecked() == maxTeamCnt) {
             temp = 0;
-            ArrayList<Integer> arrayList = getCheckedIdxArr();
-            int[] output = new int[2];
-            boolean[] visited = new boolean[arrayList.size()];
-            perm(arrayList, output, visited, 0);
+            ArrayList<Integer> arrayList1 = getCheckedIdxArr(1);
+            int[] output1 = new int[2];
+            boolean[] visited1 = new boolean[arrayList1.size()];
+            perm(arrayList1, output1, visited1, 0);
+            int num1 = temp;
+
+            temp = 0;
+            ArrayList<Integer> arrayList2 = getCheckedIdxArr(0);
+            int[] output2 = new int[2];
+            boolean[] visited2 = new boolean[arrayList2.size()];
+            perm(arrayList2, output2, visited2, 0);
+            int num2 = temp;
+
+            answer = Math.min(answer, Math.abs(num1 - num2));
 
         } else {
             if (idx < check.length) {
@@ -64,12 +75,11 @@ public class Main {
         }
     }
 
-    public ArrayList<Integer> getCheckedIdxArr() {
+    public ArrayList<Integer> getCheckedIdxArr(int flag) {
         ArrayList<Integer> arrayList = new ArrayList<>();
         for (int i = 1; i < check.length; i++) {
-            if (check[i] == 1) arrayList.add(i);
+            if (check[i] == flag) arrayList.add(i);
         }
-
         return arrayList;
     }
 
