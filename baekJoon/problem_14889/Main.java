@@ -1,10 +1,11 @@
 package problem_14889;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    public static int N, maxTeamCnt, total = 0;
+    public static int N, maxTeamCnt, total = 0, temp = 0;
 
     public static int[] check;
     public static int[][] S;
@@ -23,8 +24,7 @@ public class Main {
                 total += S[i][j];
             }
         }
-
-        System.out.println(total);
+        
 
         main.DFS(1);
     }
@@ -32,8 +32,12 @@ public class Main {
     public void DFS(int idx) {
 
         if (countChecked() == maxTeamCnt) {
-            for (int i = 1; i < check.length; i++) System.out.print(check[i] + " ");
-            System.out.println();
+            temp = 0;
+            ArrayList<Integer> arrayList = getCheckedIdxArr();
+            int[] output = new int[2];
+            boolean[] visited = new boolean[arrayList.size()];
+            perm(arrayList, output, visited, 0);
+
         } else {
             if (idx < check.length) {
                 check[idx] = 1;
@@ -44,7 +48,31 @@ public class Main {
         }
     }
 
- 
+    public void perm(ArrayList<Integer> arr, int[] output, boolean[] visited, int L) {
+        if (L == 2) {
+            temp += S[output[0]][output[1]];
+            return;
+        }
+
+        for (int i = 0; i < arr.size(); i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                output[L] = arr.get(i);
+                perm(arr, output, visited, L + 1);
+                visited[i] = false;
+            }
+        }
+    }
+
+    public ArrayList<Integer> getCheckedIdxArr() {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int i = 1; i < check.length; i++) {
+            if (check[i] == 1) arrayList.add(i);
+        }
+
+        return arrayList;
+    }
+
     public int countChecked() {
         int cnt = 0;
         for (int i = 1; i < check.length; i++) {
