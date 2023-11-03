@@ -1,5 +1,7 @@
 package problem_9019;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
@@ -15,13 +17,66 @@ public class Main {
         for (int i = 0; i < T; i++) {
             testCases[i][0] = scanner.nextInt();
             testCases[i][1] = scanner.nextInt();
+            String answer = main.solution(testCases[i]);
+            System.out.println(answer);
         }
 
 
     }
 
+    public String solution(int[] testCase) {
+        int[] visited = new int[10000];
+        String[] command = new String[10000];
+
+        int origin = testCase[0];
+        int target = testCase[1];
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(origin);
+        visited[origin] = 1;
+        command[origin] = "";
+
+        while (!queue.isEmpty()) {
+            int n = queue.poll();
+
+            int D = execD(n);
+            int S = execS(n);
+            int L = execL(n);
+            int R = execR(n);
+
+            if (visited[D] == 0) {
+                visited[D] = 1;
+                command[D] = command[n] + "D";
+                queue.offer(D);
+            }
+
+            if (visited[S] == 0) {
+                visited[S] = 1;
+                command[S] = command[n] + "S";
+                queue.offer(S);
+            }
+
+            if (visited[L] == 0) {
+                visited[L] = 1;
+                command[L] = command[n] + "L";
+                queue.offer(L);
+            }
+
+            if (visited[R] == 0) {
+                visited[R] = 1;
+                command[R] = command[n] + "R";
+                queue.offer(R);
+            }
+
+            if (visited[target] == 1) break;
+        }
+
+        return command[target];
+    }
+
+
     public int execD(int n) {
-        return (n * 2) / 10000;
+        return (n * 2) % 10000;
     }
 
     public int execS(int n) {
