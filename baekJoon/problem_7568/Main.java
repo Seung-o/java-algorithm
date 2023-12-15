@@ -1,34 +1,14 @@
 package problem_7568;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
-class Size implements Comparable<Size> {
-    int id, weight, height, rank = 1;
+class Size {
+    int weight, height, rank = 1;
 
-    public Size(int id, int weight, int height) {
-        this.id = id;
+    public Size(int weight, int height) {
         this.weight = weight;
         this.height = height;
-    }
-
-    public static int getId(Size s) {
-        return s.id;
-    }
-
-    @Override
-    public int compareTo(Size o) {
-        if (weight > o.weight && height > o.height) {
-            return -1;
-        } else if (weight <= o.weight && height >= o.height) {
-            return 0;
-        } else if (weight >= o.weight && height <= o.height) {
-            return 0;
-        } else {
-            return 1;
-        }
     }
 }
 
@@ -38,30 +18,23 @@ public class Main {
         int N = scanner.nextInt();
         ArrayList<Size> arr = new ArrayList<>();
         for (int i = 0; i < N; i++) {
-            arr.add(new Size(i, scanner.nextInt(), scanner.nextInt()));
-        }
-
-        Collections.sort(arr);
-        for (int i = 0; i < N; i++) {
-            if (i == 0) {
-                arr.get(i).rank = i + 1;
-            } else {
-                if (arr.get(i).compareTo(arr.get(i - 1)) == 0) {
-                    arr.get(i).rank = arr.get(i - 1).rank;
-                } else {
-                    arr.get(i).rank = i + 1;
-                }
-            }
-
+            arr.add(new Size(scanner.nextInt(), scanner.nextInt()));
         }
 
         StringBuilder answer = new StringBuilder();
 
+        for (int i = 0; i < N; i++) {
 
-        Collections.sort(arr, Comparator.comparingInt(Size::getId));
+            int rank = 1;
 
-        for (Size size : arr) {
-            answer.append(size.rank + " ");
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    continue;
+                }
+                if (arr.get(i).weight < arr.get(j).weight && arr.get(i).height < arr.get(j).height) rank++;
+            }
+
+            answer.append(rank).append(" ");
         }
 
         System.out.println(answer);
